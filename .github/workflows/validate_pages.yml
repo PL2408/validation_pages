@@ -1,0 +1,42 @@
+name: Validate Website Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  validate-pages:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '11'
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get install -y unzip
+        curl -LO https://github.com/validator/validator/releases/download/20.6.30/vnu.jar_20.6.30.zip
+        unzip vnu.jar_20.6.30.zip
+
+    - name: Run Website Validation Script
+      run: |
+        ./validate_pages.sh
+      env:
+        VNU_JAR: vnu.jar
+
+    - name: Extract Errors
+      run: |
+        grep "error" output.txt > bucket.report
+
+    - name: Upload Validation Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: validation-report
+        path: bucket.report
+
