@@ -1,4 +1,4 @@
-name: Update dev branch
+name: Update dev
 
 on:
   workflow_dispatch:
@@ -13,11 +13,12 @@ jobs:
       with:
         ref: main
 
-    - name: Delete dev branch
+    - name: Delete dev
       run: |
-        git push https://x-access-token:${{ secrets.UPDATE_DEV }}@github.com/${{ github.repository }} --delete dev || true
+        git checkuot main
+        git push origin --delete dev
 
-    - name: Create new dev branch from main
+    - name: Create new dev from main
       run: |
-        git checkout -b dev
-        git push https://x-access-token:${{ secrets.UPDATE_DEV }}@github.com/${{ github.repository }} dev
+        git checkuot main
+        git push origin main:refs/heads/dev
