@@ -15,9 +15,9 @@ jobs:
 
     - name: Delete dev branch
       run: |
-        git push origin --delete dev || true
+        git push https://x-access-token:${{ secrets.UPDATE_DEV }}@github.com/${{ github.repository }} --delete dev || true
 
     - name: Create new dev branch from main
       run: |
         git checkout -b dev
-        git push origin dev
+        git push https://x-access-token:${{ secrets.UPDATE_DEV }}@github.com/${{ github.repository }} dev
