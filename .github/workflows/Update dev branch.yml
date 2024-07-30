@@ -15,10 +15,8 @@ jobs:
 
     - name: Delete dev
       run: |
-        git checkuot main
         git push origin --delete dev
 
     - name: Create new dev from main
       run: |
-        git checkuot main
         git push origin main:refs/heads/dev
