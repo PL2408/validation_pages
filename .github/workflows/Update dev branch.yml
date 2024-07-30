@@ -1,0 +1,23 @@
+name: Update dev branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-dev:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v2
+      with:
+        ref: main
+
+    - name: Delete dev branch
+      run: |
+        git push origin --delete dev || true
+
+    - name: Create new dev branch from main
+      run: |
+        git checkout -b dev
+        git push origin dev
